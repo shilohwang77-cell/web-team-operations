@@ -176,72 +176,112 @@
       font-weight: 760;
     }
 
-    .direction-list {
+    .ownership-map {
       display: grid;
-      gap: 14px;
+      gap: 18px;
     }
 
-    .direction-row {
+    .ownership-columns {
       display: grid;
-      grid-template-columns: minmax(190px, 230px) minmax(0, 1fr);
-      min-height: 104px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .ownership-role {
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      box-shadow: 0 10px 30px rgba(16, 32, 51, 0.10);
+      box-shadow: 0 12px 34px rgba(16, 32, 51, 0.11);
     }
 
-    .direction-label {
-      display: grid;
-      place-items: center;
-      margin: 0;
-      padding: 18px 20px;
+    .ownership-head {
+      padding: 18px 22px;
       background: var(--blue);
       color: #fff;
-      text-align: center;
-      font-size: clamp(20px, 2vw, 27px);
-      line-height: 1.25;
-      font-weight: 780;
     }
 
-    .direction-row.vendor .direction-label {
+    .ownership-role.vendor .ownership-head {
       background: var(--green);
     }
 
-    .direction-row.all .direction-label {
-      background: var(--coral);
+    .ownership-head p,
+    .ownership-head h3 {
+      margin: 0;
+      letter-spacing: 0;
     }
 
-    .direction-details {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      align-items: center;
-      gap: 12px;
+    .ownership-head p {
+      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .ownership-head h3 {
+      font-size: clamp(21px, 2vw, 28px);
+      line-height: 1.3;
+    }
+
+    .ownership-responsibilities,
+    .shared-list {
       margin: 0;
-      padding: 18px 22px;
-      list-style: none;
+      padding: 20px 24px 22px 42px;
       color: var(--ink);
-      font-size: clamp(16px, 1.35vw, 20px);
-      line-height: 1.4;
-      font-weight: 620;
+      font-size: clamp(17px, 1.5vw, 21px);
+      line-height: 1.45;
     }
 
-    .direction-details li {
-      position: relative;
+    .ownership-responsibilities {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 24px;
+    }
+
+    .ownership-responsibilities li,
+    .shared-list li {
       margin: 0;
-      padding-left: 16px;
     }
 
-    .direction-details li::before {
-      content: "";
-      position: absolute;
-      top: 0.58em;
-      left: 0;
-      width: 7px;
-      height: 7px;
+    .shared-foundation {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      align-items: stretch;
+      overflow: hidden;
+      border: 1px solid #aac5e5;
       border-radius: var(--radius);
-      background: var(--coral);
+      background: #eaf3fb;
+    }
+
+    .shared-title {
+      display: grid;
+      align-content: center;
+      padding: 20px 24px;
+      background: #d6e8f8;
+      color: var(--blue);
+    }
+
+    .shared-title p,
+    .shared-title h3 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .shared-title p {
+      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .shared-title h3 {
+      font-size: clamp(21px, 2vw, 28px);
+      line-height: 1.3;
+    }
+
+    .shared-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: center;
+      gap: 10px 24px;
     }
 
     .table-wrap {
@@ -371,16 +411,13 @@
 
       .grid,
       .grid.three,
-      .role-tables {
+      .role-tables,
+      .ownership-columns {
         grid-template-columns: 1fr;
       }
 
-      .direction-row {
+      .shared-foundation {
         grid-template-columns: 1fr;
-      }
-
-      .direction-details {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .panel {
@@ -552,35 +589,46 @@
         <div class="slide-number">3/6</div>
       </header>
       <div class="content">
-        <p class="lead">以清楚的 Product Ownership 分配責任，同時讓每位設計師都能累積完整經驗並持續成長。</p>
-        <div class="direction-list">
-          <article class="direction-row staff">
-            <h3 class="direction-label">正職</h3>
-            <ul class="direction-details">
-              <li>產品／平台設計方向</li>
-              <li>重要設計決策</li>
-              <li>跨團隊、跨產品協調</li>
-              <li>Design Library 管理</li>
-            </ul>
-          </article>
-          <article class="direction-row vendor">
-            <h3 class="direction-label">廠商</h3>
-            <ul class="direction-details">
-              <li>獨立承擔完整專案</li>
-              <li>需求分析與問題釐清</li>
-              <li>UX / UI 設計與交付</li>
-              <li>Design QA 與成果負責</li>
-            </ul>
-          </article>
-          <article class="direction-row all">
-            <h3 class="direction-label">所有 Designer</h3>
-            <ul class="direction-details">
+        <p class="lead">角色責任不同，但正職與廠商都保有完整的設計執行與成長空間。</p>
+        <div class="ownership-map">
+          <div class="ownership-columns">
+            <article class="ownership-role staff">
+              <header class="ownership-head">
+                <p>正職</p>
+                <h3>產品／平台設計 Owner</h3>
+              </header>
+              <ul class="ownership-responsibilities">
+                <li>掌握整體設計方向</li>
+                <li>決策重要設計議題</li>
+                <li>跨團隊、跨產品協調</li>
+                <li>管理 Design Library</li>
+              </ul>
+            </article>
+            <article class="ownership-role vendor">
+              <header class="ownership-head">
+                <p>廠商</p>
+                <h3>專案設計 Owner</h3>
+              </header>
+              <ul class="ownership-responsibilities">
+                <li>獨立承擔完整專案</li>
+                <li>需求分析與問題釐清</li>
+                <li>UX / UI 設計與交付</li>
+                <li>Design QA 與成果負責</li>
+              </ul>
+            </article>
+          </div>
+          <section class="shared-foundation">
+            <div class="shared-title">
+              <p>所有 Designer</p>
+              <h3>共同能力與成長基礎</h3>
+            </div>
+            <ul class="shared-list">
               <li>累積完整專案經驗</li>
               <li>共同貢獻 Library 與方法</li>
-              <li>維持完整設計能力</li>
-              <li>持續成長與合理負荷</li>
+              <li>維持完整且相近的設計能力</li>
+              <li>持續成長並維持合理工作負荷</li>
             </ul>
-          </article>
+          </section>
         </div>
       </div>
       <footer class="footer">
