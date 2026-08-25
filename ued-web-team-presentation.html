@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UED Web Team｜設計團隊分工與發展規劃</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #102033;
+      --muted: #5b6f89;
+      --line: #c8d6e8;
+      --paper: #f4f8fd;
+      --panel: #ffffff;
+      --green: #1d5fa7;
+      --blue: #174a8b;
+      --coral: #3b82f6;
+      --gold: #0f6fb6;
+      --radius: 8px;
+      --shadow: 0 18px 50px rgba(16, 32, 51, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        linear-gradient(115deg, rgba(29, 95, 167, 0.13), transparent 34%),
+        linear-gradient(245deg, rgba(59, 130, 246, 0.12), transparent 32%),
+        var(--paper);
+      color: var(--ink);
+      font-family: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 28px;
+      padding: clamp(28px, 5vw, 72px);
+      display: none;
+    }
+
+    .slide.active {
+      display: grid;
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: 1.16;
+    }
+
+    h1,
+    h2 {
+      max-width: 980px;
+      font-size: clamp(36px, 5vw, 64px);
+    }
+
+    .slide-number {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    .content {
+      display: grid;
+      align-content: center;
+      gap: 26px;
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .lead {
+      max-width: 980px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.55;
+      font-weight: 520;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .panel {
+      min-height: 160px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      color: var(--blue);
+      font-size: clamp(20px, 2vw, 27px);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 1.6vw, 22px);
+      line-height: 1.55;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2em;
+      color: var(--ink);
+      font-size: clamp(18px, 1.8vw, 25px);
+      line-height: 1.55;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .statement {
+      border-left: 7px solid var(--coral);
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 26px 30px;
+      border-radius: var(--radius);
+      color: var(--ink);
+      font-size: clamp(22px, 2.5vw, 34px);
+      line-height: 1.45;
+      font-weight: 760;
+    }
+
+    .direction-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .direction-row {
+      display: grid;
+      grid-template-columns: minmax(190px, 230px) minmax(0, 1fr);
+      min-height: 104px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(16, 32, 51, 0.10);
+    }
+
+    .direction-label {
+      display: grid;
+      place-items: center;
+      margin: 0;
+      padding: 18px 20px;
+      background: var(--blue);
+      color: #fff;
+      text-align: center;
+      font-size: clamp(20px, 2vw, 27px);
+      line-height: 1.25;
+      font-weight: 780;
+    }
+
+    .direction-row.vendor .direction-label {
+      background: var(--green);
+    }
+
+    .direction-row.all .direction-label {
+      background: var(--coral);
+    }
+
+    .direction-details {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      padding: 18px 22px;
+      list-style: none;
+      color: var(--ink);
+      font-size: clamp(16px, 1.35vw, 20px);
+      line-height: 1.4;
+      font-weight: 620;
+    }
+
+    .direction-details li {
+      position: relative;
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .direction-details li::before {
+      content: "";
+      position: absolute;
+      top: 0.58em;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: var(--radius);
+      background: var(--coral);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .role-tables {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .table-title {
+      margin: 0;
+      padding: 16px 18px 12px;
+      color: var(--blue);
+      font-size: clamp(20px, 2vw, 27px);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(15px, 1.45vw, 20px);
+      line-height: 1.45;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #fff;
+      background: var(--blue);
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .platform-cell {
+      vertical-align: middle;
+      color: var(--blue);
+      background: #eef5fc;
+      font-weight: 760;
+    }
+
+    .phase {
+      display: grid;
+      gap: 12px;
+    }
+
+    .phase strong {
+      color: var(--gold);
+      font-size: clamp(18px, 1.8vw, 24px);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 15px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+      box-shadow: 0 8px 24px rgba(16, 32, 51, 0.10);
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(59, 130, 246, 0.35);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 880px) {
+      body {
+        overflow: auto;
+      }
+
+      .deck {
+        min-height: 100vh;
+        height: auto;
+      }
+
+      .slide {
+        min-height: 100vh;
+        padding: 26px 18px;
+        gap: 22px;
+      }
+
+      .slide-header {
+        align-items: flex-start;
+      }
+
+      .slide-number {
+        width: 48px;
+        height: 48px;
+      }
+
+      .grid,
+      .grid.three,
+      .role-tables {
+        grid-template-columns: 1fr;
+      }
+
+      .direction-row {
+        grid-template-columns: 1fr;
+      }
+
+      .direction-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .panel {
+        min-height: auto;
+        padding: 20px;
+      }
+
+      .footer {
+        position: sticky;
+        bottom: 0;
+        background: rgba(244, 248, 253, 0.92);
+        backdrop-filter: blur(10px);
+      }
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck {
+        height: auto;
+      }
+
+      .slide {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        page-break-after: always;
+      }
+
+      .controls {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-live="polite">
+    <section class="slide active" data-title="目前產品與開發模式">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜01</p>
+          <h1>目前產品與開發模式</h1>
+        </div>
+        <div class="slide-number">1/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">Web Team 橫跨網銀、私人銀行、線上申辦、ROBO 與非平台任務；不同產品同時存在，By 專案、Agile、AI Scrum 的運作節奏。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>平台／類型</th>
+                <th>產品</th>
+                <th>開發模式</th>
+                <th>Library 現況</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="platform-cell" rowspan="2">網銀平台</td>
+                <td>網銀</td>
+                <td>Agile／2 週</td>
+                <td>最完整，作為 Core Library 基礎</td>
+              </tr>
+              <tr>
+                <td>私人銀行</td>
+                <td>AI Scrum／1 週</td>
+                <td>使用網銀 Library，另使用 AI Code Connect</td>
+              </tr>
+              <tr>
+                <td class="platform-cell" rowspan="4">線上申辦平台</td>
+                <td>線上申辦</td>
+                <td>Agile／2 週</td>
+                <td>有自己的 Library，與網銀接近</td>
+              </tr>
+              <tr>
+                <td>線上申辦 AI</td>
+                <td>AI Scrum／1 週</td>
+                <td>新起步，開始與網銀元件拉齊</td>
+              </tr>
+              <tr>
+                <td>信貸</td>
+                <td>視專案而定</td>
+                <td>依線上申辦平台發展</td>
+              </tr>
+              <tr>
+                <td>虛擬資產</td>
+                <td>視專案而定</td>
+                <td>依線上申辦平台發展</td>
+              </tr>
+              <tr>
+                <td class="platform-cell">ROBO 平台</td>
+                <td>ROBO</td>
+                <td>Agile／2 週</td>
+                <td>有自己的 Library</td>
+              </tr>
+              <tr>
+                <td class="platform-cell" rowspan="2">非平台型任務</td>
+                <td>UX Lab</td>
+                <td>—</td>
+                <td>非平台</td>
+              </tr>
+              <tr>
+                <td>卡經 EDM</td>
+                <td>—</td>
+                <td>非平台</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <footer class="footer">
+        <span>產品版圖與開發節奏</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+
+    <section class="slide" data-title="團隊分工原則">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜02</p>
+          <h2>設計團隊分工與發展規劃</h2>
+        </div>
+        <div class="slide-number">2/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">以「主責任」重新定義協作：廠商設計師主責承接功能專案，正職設計師主責產品/平台設計方向、跨團隊協調與設計決策。</p>
+        <div class="grid">
+          <article class="panel">
+            <h3>廠商設計師｜專案 Owner</h3>
+            <ul>
+              <li>獨立負責完整專案與 UX / UI 設計</li>
+              <li>參與需求分析、設計交付與 Design QA</li>
+              <li>與 PM、PO、RD 協作並對成果負責</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3>正職設計師｜產品／平台 Owner</h3>
+            <ul>
+              <li>掌握產品／平台整體設計方向</li>
+              <li>負責重要設計議題與跨團隊協調</li>
+              <li>管理 Design Library 與設計一致性</li>
+            </ul>
+          </article>
+        </div>
+        <div class="statement">兩個角色皆有設計執行的任務，但<strong>角色差異在於組織責任、決策權與協調範圍，而不是設計能力或工作量高低。</strong></div>
+      </div>
+      <footer class="footer">
+        <span>UED Web Team</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+
+    <section class="slide" data-title="長期團隊發展方向">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜03</p>
+          <h2>長期團隊發展方向</h2>
+        </div>
+        <div class="slide-number">3/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">以清楚的 Product Ownership 分配責任，同時讓每位設計師都能累積完整經驗並持續成長。</p>
+        <div class="direction-list">
+          <article class="direction-row staff">
+            <h3 class="direction-label">正職</h3>
+            <ul class="direction-details">
+              <li>產品／平台設計方向</li>
+              <li>重要設計決策</li>
+              <li>跨團隊、跨產品協調</li>
+              <li>Design Library 管理</li>
+            </ul>
+          </article>
+          <article class="direction-row vendor">
+            <h3 class="direction-label">廠商</h3>
+            <ul class="direction-details">
+              <li>獨立承擔完整專案</li>
+              <li>需求分析與問題釐清</li>
+              <li>UX / UI 設計與交付</li>
+              <li>Design QA 與成果負責</li>
+            </ul>
+          </article>
+          <article class="direction-row all">
+            <h3 class="direction-label">所有 Designer</h3>
+            <ul class="direction-details">
+              <li>累積完整專案經驗</li>
+              <li>共同貢獻 Library 與方法</li>
+              <li>維持完整設計能力</li>
+              <li>持續成長與合理負荷</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+      <footer class="footer">
+        <span>Long-term Team Direction</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+
+    <section class="slide" data-title="Library 發展方向">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜04</p>
+          <h2>Library 發展方向</h2>
+        </div>
+        <div class="slide-number">4/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">主要以網銀平台與線上申辦平台為核心，不讓各平台各自長成孤島，而是逐步形成跨產品共享的 Design Library。</p>
+        <div class="grid three">
+          <article class="panel">
+            <h3>核心基礎</h3>
+            <p>以網銀平台現有 Library 作為 Components 的基礎，保留成熟規格與設計品質。</p>
+          </article>
+          <article class="panel">
+            <h3>逐步對齊</h3>
+            <p>線上申辦平台逐步對齊網銀元件，整理差異、調整規格與前端實作方式。</p>
+          </article>
+          <article class="panel">
+            <h3>共同維護</h3>
+            <p>由各產品 Designer 共同貢獻，避免 Design Library 依賴單一人員。</p>
+          </article>
+        </div>
+        <div class="statement">最終目標：以網銀平台與線上申辦平台為主，建立可跨產品共用的 Design Library。</div>
+      </div>
+      <footer class="footer">
+        <span>Design Library Strategy</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+
+    <section class="slide" data-title="新人的定位與階段發展">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜05</p>
+          <h2>新人的定位與階段發展</h2>
+        </div>
+        <div class="slide-number">5/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">從線上申辦專案與元件整合開始，逐步承接線上申辦平台責任與網銀專案，長期發展 Web 跨產品能力。</p>
+        <div class="grid three">
+          <article class="panel phase">
+            <strong>Phase 1｜短期</strong>
+            <h3>線上申辦專案＋線上申辦與網銀元件整合</h3>
+            <p>承接線上申辦專案，盤點線上申辦與網銀 Library 差異，建立跨產品 Design Library 思維。</p>
+          </article>
+          <article class="panel phase">
+            <strong>Phase 2｜中期</strong>
+            <h3>線上申辦平台設計 Owner ＋ 網銀專案</h3>
+            <p>主責線上申辦平台設計方向與品質，並於 2027 Q1 增加網銀完整專案責任。</p>
+          </article>
+          <article class="panel phase">
+            <strong>Phase 3｜長期</strong>
+            <h3>Web 跨產品能力（網銀平台設計 Owner？）</h3>
+            <p>累積 Web 跨產品設計與協調能力，並評估網銀平台設計 Owner 的發展方向。</p>
+          </article>
+        </div>
+      </div>
+      <footer class="footer">
+        <span>Designer Growth Path</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+
+    <section class="slide" data-title="團隊角色定位">
+      <header class="slide-header">
+        <div>
+          <p class="kicker">UED Web Team｜06</p>
+          <h2>團隊角色定位</h2>
+        </div>
+        <div class="slide-number">6/6</div>
+      </header>
+      <div class="content">
+        <p class="lead">正職設計師皆為平台設計 Owner；廠商設計師皆為專案設計 Owner。</p>
+        <div class="role-tables">
+          <div class="table-wrap">
+            <h3 class="table-title">正職｜平台設計 Owner</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>設計師</th>
+                  <th>主要定位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>王詩容</td>
+                  <td>網銀平台 Owner / Web Team 設計管理 / 跨平台設計溝通 / 線上申辦 AI</td>
+                </tr>
+                <tr>
+                  <td>薛馮慈</td>
+                  <td>私人銀行平台 Owner／AI</td>
+                </tr>
+                <tr>
+                  <td>鄭筑友</td>
+                  <td>ROBO 平台 Owner／AI／UX Lab</td>
+                </tr>
+                <tr>
+                  <td>王仕和</td>
+                  <td>線上申辦專案與元件整合 → 線上申辦平台設計 Owner ＋ 網銀專案 → Web 跨產品能力（網銀平台設計 Owner？）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-wrap">
+            <h3 class="table-title">廠商｜專案設計 Owner</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>設計師</th>
+                  <th>主要定位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>謝明卲</td>
+                  <td>網銀專案 Owner</td>
+                </tr>
+                <tr>
+                  <td>黃霈仁</td>
+                  <td>網銀專案 Owner</td>
+                </tr>
+                <tr>
+                  <td>沈子翔</td>
+                  <td>網銀／線上申辦跨產品專案 Owner</td>
+                </tr>
+                <tr>
+                  <td>林庭郁</td>
+                  <td>ROBO 專案 Owner</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <span>Role Ownership</span>
+        <nav class="controls" aria-label="簡報控制">
+          <button type="button" data-prev aria-label="上一頁">‹</button>
+          <button type="button" data-next aria-label="下一頁">›</button>
+        </nav>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    let current = 0;
+
+    function showSlide(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("active", slideIndex === current);
+      });
+      document.title = `${slides[current].dataset.title}｜UED Web Team`;
+    }
+
+    document.querySelectorAll("[data-prev]").forEach((button) => {
+      button.addEventListener("click", () => showSlide(current - 1));
+    });
+
+    document.querySelectorAll("[data-next]").forEach((button) => {
+      button.addEventListener("click", () => showSlide(current + 1));
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        showSlide(current + 1);
+      }
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        showSlide(current - 1);
+      }
+      if (event.key === "Home") {
+        showSlide(0);
+      }
+      if (event.key === "End") {
+        showSlide(slides.length - 1);
+      }
+    });
+  </script>
+</body>
+</html>
