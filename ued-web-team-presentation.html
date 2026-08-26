@@ -176,112 +176,99 @@
       font-weight: 760;
     }
 
-    .ownership-map {
-      display: grid;
-      gap: 18px;
+    .responsibility-matrix table {
+      table-layout: fixed;
+      font-size: clamp(15px, 1.25vw, 18px);
     }
 
-    .ownership-columns {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+    .responsibility-matrix th,
+    .responsibility-matrix td {
+      padding: 16px 18px;
+      vertical-align: middle;
     }
 
-    .ownership-role {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: 0 12px 34px rgba(16, 32, 51, 0.11);
+    .responsibility-matrix tbody tr:nth-child(even) td:not(.matrix-owner) {
+      background: #f7faff;
     }
 
-    .ownership-head {
-      padding: 18px 22px;
+    .matrix-owner {
+      text-align: center;
+    }
+
+    .matrix-goal {
+      color: var(--blue);
+      font-weight: 720;
+    }
+
+    .owner-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 18px;
+      border-radius: 999px;
       background: var(--blue);
       color: #fff;
+      text-align: center;
+      font-size: clamp(16px, 1.35vw, 20px);
+      line-height: 1.3;
+      font-weight: 780;
     }
 
-    .ownership-role.vendor .ownership-head {
+    .owner-pill.vendor {
       background: var(--green);
     }
 
-    .ownership-head p,
-    .ownership-head h3 {
-      margin: 0;
-      letter-spacing: 0;
-    }
-
-    .ownership-head p {
-      margin-bottom: 4px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .ownership-head h3 {
-      font-size: clamp(21px, 2vw, 28px);
-      line-height: 1.3;
-    }
-
-    .ownership-responsibilities,
-    .shared-list {
-      margin: 0;
-      padding: 20px 24px 22px 42px;
-      color: var(--ink);
-      font-size: clamp(17px, 1.5vw, 21px);
-      line-height: 1.45;
-    }
-
-    .ownership-responsibilities {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px 24px;
-    }
-
-    .ownership-responsibilities li,
-    .shared-list li {
-      margin: 0;
-    }
-
-    .shared-foundation {
-      display: grid;
-      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-      align-items: stretch;
-      overflow: hidden;
+    .owner-pill.shared {
       border: 1px solid #aac5e5;
-      border-radius: var(--radius);
-      background: #eaf3fb;
-    }
-
-    .shared-title {
-      display: grid;
-      align-content: center;
-      padding: 20px 24px;
       background: #d6e8f8;
       color: var(--blue);
     }
 
-    .shared-title p,
-    .shared-title h3 {
-      margin: 0;
-      letter-spacing: 0;
-    }
-
-    .shared-title p {
-      margin-bottom: 4px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .shared-title h3 {
-      font-size: clamp(21px, 2vw, 28px);
-      line-height: 1.3;
-    }
-
-    .shared-list {
+    .matrix-lines {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-content: center;
-      gap: 10px 24px;
+      gap: 5px;
+    }
+
+    .matrix-lines span {
+      position: relative;
+      display: block;
+      padding-left: 14px;
+    }
+
+    .matrix-lines span::before {
+      content: "";
+      position: absolute;
+      top: 0.58em;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius);
+      background: var(--coral);
+    }
+
+    .responsibility-matrix tfoot td {
+      padding: 14px 18px;
+      border-top: 2px solid #aac5e5;
+      background: #eaf3fb;
+    }
+
+    .matrix-outcome {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 16px;
+      color: var(--ink);
+      font-size: clamp(14px, 1.15vw, 17px);
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    .matrix-outcome strong {
+      color: var(--blue);
+      font-size: clamp(17px, 1.4vw, 20px);
+      white-space: nowrap;
     }
 
     .table-wrap {
@@ -411,13 +398,12 @@
 
       .grid,
       .grid.three,
-      .role-tables,
-      .ownership-columns {
+      .role-tables {
         grid-template-columns: 1fr;
       }
 
-      .shared-foundation {
-        grid-template-columns: 1fr;
+      .responsibility-matrix table {
+        min-width: 820px;
       }
 
       .panel {
@@ -589,46 +575,66 @@
         <div class="slide-number">3/6</div>
       </header>
       <div class="content">
-        <p class="lead">角色責任不同，但正職與廠商都保有完整的設計執行與成長空間。</p>
-        <div class="ownership-map">
-          <div class="ownership-columns">
-            <article class="ownership-role staff">
-              <header class="ownership-head">
-                <p>正職</p>
-                <h3>產品／平台設計 Owner</h3>
-              </header>
-              <ul class="ownership-responsibilities">
-                <li>掌握整體設計方向</li>
-                <li>決策重要設計議題</li>
-                <li>跨團隊、跨產品協調</li>
-                <li>管理 Design Library</li>
-              </ul>
-            </article>
-            <article class="ownership-role vendor">
-              <header class="ownership-head">
-                <p>廠商</p>
-                <h3>專案設計 Owner</h3>
-              </header>
-              <ul class="ownership-responsibilities">
-                <li>獨立承擔完整專案</li>
-                <li>需求分析與問題釐清</li>
-                <li>UX / UI 設計與交付</li>
-                <li>Design QA 與成果負責</li>
-              </ul>
-            </article>
-          </div>
-          <section class="shared-foundation">
-            <div class="shared-title">
-              <p>所有 Designer</p>
-              <h3>共同能力與成長基礎</h3>
-            </div>
-            <ul class="shared-list">
-              <li>累積完整專案經驗</li>
-              <li>共同貢獻 Library 與方法</li>
-              <li>維持完整且相近的設計能力</li>
-              <li>持續成長並維持合理工作負荷</li>
-            </ul>
-          </section>
+        <p class="lead">每個產品都有明確 Designer Owner，讓角色責任清楚、專案經驗完整，並避免能力集中與工作負荷失衡。</p>
+        <div class="table-wrap responsibility-matrix">
+          <table>
+            <colgroup>
+              <col style="width: 34%">
+              <col style="width: 40%">
+              <col style="width: 26%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>角色定位</th>
+                <th>主要職責</th>
+                <th>長期方向</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="matrix-owner"><span class="owner-pill">正職｜產品／平台設計 Owner</span></td>
+                <td>
+                  <div class="matrix-lines">
+                    <span>掌握產品／平台整體設計方向</span>
+                    <span>決策重要設計議題</span>
+                    <span>跨團隊、跨產品協調</span>
+                  </div>
+                </td>
+                <td class="matrix-goal">承擔更高層級的設計決策與組織責任</td>
+              </tr>
+              <tr>
+                <td class="matrix-owner"><span class="owner-pill vendor">廠商｜專案設計 Owner</span></td>
+                <td>
+                  <div class="matrix-lines">
+                    <span>需求分析與問題釐清</span>
+                    <span>UX / UI 設計與交付</span>
+                    <span>Design QA 並對成果負責</span>
+                  </div>
+                </td>
+                <td class="matrix-goal">獨立承擔完整專案</td>
+              </tr>
+              <tr>
+                <td class="matrix-owner"><span class="owner-pill shared">所有 Designer｜共同成長</span></td>
+                <td>
+                  <div class="matrix-lines">
+                    <span>累積完整專案經驗</span>
+                    <span>共同貢獻 Design Library 與方法</span>
+                  </div>
+                </td>
+                <td class="matrix-goal">持續成長，維持相近的設計能力與工作負荷</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <div class="matrix-outcome">
+                    <strong>最終目標</strong>
+                    <span>避免廠商長期只接零碎需求造成能力斷層與工作負荷失衡；正職承擔設計決策與組織責任，廠商獨立承擔完整專案，讓所有 Designer 持續成長並維持相近的設計能力與工作負荷。</span>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
       <footer class="footer">
