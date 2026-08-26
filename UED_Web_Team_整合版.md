@@ -33,10 +33,10 @@
 
 | 平台／類型 | 產品 | 開發模式 | Library 現況 |
 |---|---|---|---|
-| 網銀平台 | 網銀 | Agile／2 週 | 最完整，作為 Core Library 基礎 |
-| 網銀平台 | 私人銀行 | AI Scrum／1 週 | 使用網銀 Library，另使用 AI Code Connect |
+| 網銀平台 | 網銀 | Agile／2 週 | 最完整，作為 Core Library 基礎；與網銀 AI Library 長相一致 |
+| 網銀平台 | 私人銀行 | AI Scrum／1 週 | 使用私銀 AI Library（同網銀 AI Library，含 AI Code Connect） |
 | 線上申辦平台 | 線上申辦 | Agile／2 週 | 有自己的 Library，與網銀接近 |
-| 線上申辦平台 | 線上申辦 AI | AI Scrum／1 週 | 新起步，開始與網銀元件拉齊 |
+| 線上申辦平台 | 線上申辦 AI | AI Scrum／1 週 | 新起步，開始與網銀 AI Library 元件拉齊 |
 | 線上申辦平台 | 信貸 | 視專案而定 | 依線上申辦平台發展 |
 | 線上申辦平台 | 虛擬資產 | 視專案而定 | 依線上申辦平台發展 |
 | ROBO 平台 | ROBO | Agile／2 週 | 有自己的 Library |
@@ -45,26 +45,56 @@
 
 ---
 
-## 3. Library 發展方向
+## 3. 網銀/私銀/線上申辦 Library 發展方向
 
 目前不建議各平台各自發展成完全獨立的 Library，而是逐步形成共享的 **Design Library**。
 
 主要以**網銀平台**與**線上申辦平台**為核心，建立可跨產品共用的 **Design Library**。
 
-- **網銀**：Library 最完整，作為核心 Components 的基礎
-- **私人銀行 AI**：使用網銀 Library，AI Code Connect 造成組成結構略有不同，但視覺一致
-- **線上申辦**：已有自己的 Library，與網銀高度接近
-- **線上申辦 AI**：剛開始發展，應逐步採用網銀元件，並整理前端元件調整規格
+- **網銀**：Library 最完整，作為核心 Components 的基礎；網銀 Library 與網銀 AI Library 長相一致，差異在於網銀 AI Library 多了 AI Code Connect
+- **私人銀行 AI**：使用私銀 AI Library，私銀 AI Library 即網銀 AI Library；AI 版本增加 AI Code Connect 設定，但視覺與元件長相一致
+- **線上申辦**：已有自己的 Library，與網銀 Library／網銀 AI Library 高度接近，需依元件差異程度分流處理
+- **線上申辦 AI**：剛開始發展，應逐步採用網銀 AI Library 元件，並整理前端元件調整規格
 
 ### 未來方向
 
-以**網銀現有 Library**為基礎，逐步整合線上申辦與私人銀行 AI 的元件與 AI 使用經驗，建立跨產品共享的 **Design Library**。
+以**網銀 Library**為視覺與元件基礎，並以**網銀 AI Library／私銀 AI Library**承接 AI Code Connect 經驗，逐步整合線上申辦與私人銀行 AI 的元件與 AI 使用經驗，建立跨產品共享的 **Design Library**。
 
 - **網銀**：作為核心 Components 的基礎
-- **線上申辦**：逐步與網銀元件對齊
-- **私人銀行 AI／線上申辦 AI**：對齊網銀元件，並累積 AI 元件與應用經驗
+- **線上申辦**：逐步與網銀 AI Library 元件對齊
+- **私人銀行 AI／線上申辦 AI**：對齊網銀 AI Library 元件，並累積 AI 元件與應用經驗
 
-> **最終目標：以網銀平台與線上申辦平台為主，建立可跨產品共用的 Design Library。**
+### 線上申辦與網銀 AI Library 合併判準
+
+線上申辦元件整合分為兩種情況：
+
+1. **與網銀 AI Library 相似的元件**
+   - 網銀 AI Library 不需變動
+   - 請前端調整線上申辦 Storybook 的共用元件
+   - 讓線上申辦可直接沿用或微調共用規格
+
+2. **與網銀 AI Library 差異較大的元件**
+   - 無法使用網銀既有元件
+   - 也無法透過微調共用元件解決
+   - 需新增元件到網銀 AI Library，補齊跨產品可共用的元件能力
+
+以上兩個部分都完成後，才算完成線上申辦與網銀 AI Library 的合併。
+
+```mermaid
+flowchart TD
+  A["網銀 Library<br/>視覺與元件長相基礎"] --- B["網銀 AI Library／私銀 AI Library<br/>長相一致，增加 AI Code Connect"]
+  B --> C["盤點線上申辦 Library 元件"]
+  C --> D{"與網銀 AI Library<br/>差異程度"}
+  D -->|相似| E["調整線上申辦 Storybook 共用元件<br/>網銀 AI Library 不需變動"]
+  D -->|差異較大| F["新增元件到網銀 AI Library<br/>補齊跨產品共用元件能力"]
+  E --> G["相似元件調整完成"]
+  F --> H["差異元件新增完成"]
+  G --> I["線上申辦與網銀 AI Library 合併完成"]
+  H --> I
+  I --> J["跨產品共用 Design Library"]
+```
+
+> **最終目標：以網銀平台與線上申辦平台為主，建立可跨產品共用的 Design Library，並完成線上申辦與網銀 AI Library 的元件合併。**
 
 Library 由團隊共同維護，各產品 Designer 共同貢獻，避免形成單一人員依賴。
 
@@ -74,19 +104,21 @@ Library 由團隊共同維護，各產品 Designer 共同貢獻，避免形成�
 
 王仕和為內部轉調設計師，過去於資訊策略發展部負責中台、Web 任務牆、後台 CUBE 權益平台等系統型產品。
 
-### Phase 1｜短期：線上申辦專案＋線上申辦與網銀元件整合
+### Phase 1｜短期：線上申辦專案＋線上申辦與網銀 AI Library 整合
 
 **主要任務**
 - 承接線上申辦專案，建立產品與業務脈絡
 - 參與線上申辦 AI 專案
-- 盤點線上申辦與網銀 Library 差異
+- 盤點線上申辦與網銀 AI Library 差異，並區分為「可共用微調」與「需新增元件」兩類
 - 開始推動兩平台元件對齊
+- 請前端調整線上申辦 Storybook 共用元件
+- 針對差異較大的元件，整理新增至網銀 AI Library 的規格
 - 整理元件調整與前端開發規格
 - 與網銀 Designer、RD 共同確認共用元件的設計與技術規格
 
 **階段目標**
 
-> 承接線上申辦專案，盤點線上申辦與網銀 Library 差異，建立跨產品 Design Library 思維。
+> 承接線上申辦專案，盤點線上申辦與網銀 AI Library 差異，完成可共用微調與需新增元件的分流，建立跨產品 Design Library 思維。
 
 ### Phase 2｜中期：線上申辦平台設計 Owner ＋ 網銀專案
 
@@ -106,7 +138,7 @@ Library 由團隊共同維護，各產品 Designer 共同貢獻，避免形成�
 
 **主要任務**
 - 持續推進網銀／線上申辦元件整合
-- 參與私人銀行 AI 使用網銀 Library 的相關議題
+- 參與私人銀行 AI 使用私銀 AI Library（同網銀 AI Library）的相關議題
 - 處理不同產品間 Component、Design Token 差異
 - 協調跨產品設計議題並推動設計一致性
 - 視團隊發展與產品需求，評估承接網銀平台設計 Owner
