@@ -66,11 +66,22 @@
       display: grid;
     }
 
+    .slide.scrollable {
+      overflow-y: scroll;
+    }
+
+    .slide.scrollable .content {
+      height: auto;
+    }
+
     .slide-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 24px;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
       border-bottom: 1px solid var(--line);
       padding-bottom: 18px;
     }
@@ -85,7 +96,7 @@
     h1,
     h2 {
       margin: 0;
-      max-width: 980px;
+      max-width: 1180px;
       font-size: var(--type-hero);
       line-height: 1.16;
       font-weight: var(--weight-title);
@@ -124,16 +135,18 @@
       align-self: start;
     }
 
+    .content.visual-content > .table-stack,
     .content.visual-content > .table-wrap,
     .content.visual-content > .role-tables,
     .content.visual-content > .grid,
     .content.visual-content > .library-flow,
+    .content.visual-content > .relation-stack,
     .content.visual-content > .relation-diagram {
       align-self: center;
     }
 
     .lead {
-      max-width: 980px;
+      max-width: 1180px;
       margin: 0;
       color: var(--muted);
       font-size: var(--type-body);
@@ -286,6 +299,19 @@
       white-space: nowrap;
     }
 
+    .matrix-summary table {
+      table-layout: fixed;
+    }
+
+    .matrix-summary td {
+      border-bottom: 0;
+      background: #eaf3fb;
+    }
+
+    .matrix-summary .matrix-outcome {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .table-wrap {
       overflow: auto;
       border: 1px solid var(--line);
@@ -294,10 +320,38 @@
       box-shadow: var(--shadow);
     }
 
+    .table-stack {
+      display: grid;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .table-stack.matrix-stack {
+      gap: 14px;
+    }
+
+    .table-note {
+      margin: 0;
+      color: #7a8797;
+      font-size: 13px;
+      line-height: var(--leading-body);
+      font-weight: var(--weight-body);
+    }
+
     .role-tables {
       display: grid;
       grid-template-columns: 1fr;
       gap: 18px;
+    }
+
+    .slide.scrollable .role-tables::after {
+      content: "";
+      display: block;
+      height: 60px;
+    }
+
+    .role-table {
+      table-layout: fixed;
     }
 
     .table-title {
@@ -448,6 +502,12 @@
       gap: 14px;
     }
 
+    .relation-stack {
+      display: grid;
+      width: 100%;
+      gap: 18px;
+    }
+
     .relation-node {
       display: grid;
       align-content: start;
@@ -513,6 +573,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
       color: var(--muted);
       font-size: var(--type-small);
       border-top: 1px solid var(--line);
@@ -650,68 +713,60 @@
       </header>
       <div class="content visual-content">
         <p class="lead">Web Team 橫跨網銀、私人銀行、線上申辦、ROBO 與非平台任務；不同產品同時存在，By 專案、Agile、AI Scrum 的運作節奏。</p>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>平台／類型</th>
-                <th>產品</th>
-                <th>開發模式</th>
-                <th>Library 現況</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="platform-cell" rowspan="2">網銀平台</td>
-                <td>網銀</td>
-                <td>Agile／2 週</td>
-                <td>最完整，作為 Core Library 基礎；與網銀 AI Library 長相一致</td>
-              </tr>
-              <tr>
-                <td>私人銀行</td>
-                <td>AI Scrum／1 週</td>
-                <td>使用私銀 AI Library（同網銀 AI Library，含 AI Code Connect）</td>
-              </tr>
-              <tr>
-                <td class="platform-cell" rowspan="4">線上申辦平台</td>
-                <td>線上申辦</td>
-                <td>Agile／2 週</td>
-                <td>有自己的 Library，與網銀接近</td>
-              </tr>
-              <tr>
-                <td>線上申辦 AI</td>
-                <td>AI Scrum／1 週</td>
-                <td>新起步，開始與網銀 AI Library 元件拉齊</td>
-              </tr>
-              <tr>
-                <td>信貸</td>
-                <td>視專案而定</td>
-                <td>依線上申辦平台發展</td>
-              </tr>
-              <tr>
-                <td>虛擬資產</td>
-                <td>視專案而定</td>
-                <td>依線上申辦平台發展</td>
-              </tr>
-              <tr>
-                <td class="platform-cell">ROBO 平台</td>
-                <td>ROBO</td>
-                <td>Agile／2 週</td>
-                <td>有自己的 Library</td>
-              </tr>
-              <tr>
-                <td class="platform-cell" rowspan="2">非平台型任務</td>
-                <td>UX Lab</td>
-                <td>—</td>
-                <td>非平台</td>
-              </tr>
-              <tr>
-                <td>卡經 EDM</td>
-                <td>—</td>
-                <td>非平台</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="table-stack">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>平台／類型</th>
+                  <th>產品</th>
+                  <th>開發模式</th>
+                  <th>Library 現況</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="platform-cell" rowspan="2">網銀平台</td>
+                  <td>網銀</td>
+                  <td>Agile／2 週</td>
+                  <td>最完整，作為 Core Library 基礎；與網銀 AI Library 長相一致</td>
+                </tr>
+                <tr>
+                  <td>私人銀行</td>
+                  <td>AI Scrum／1 週</td>
+                  <td>使用私銀 AI Library（同網銀 AI Library，含 AI Code Connect）</td>
+                </tr>
+                <tr>
+                  <td class="platform-cell" rowspan="4">線上申辦平台</td>
+                  <td>線上申辦</td>
+                  <td>Agile／2 週</td>
+                  <td>有自己的 Library，與網銀接近</td>
+                </tr>
+                <tr>
+                  <td>線上申辦 AI</td>
+                  <td>AI Scrum／1 週</td>
+                  <td>新起步，開始與網銀 AI Library 元件拉齊</td>
+                </tr>
+                <tr>
+                  <td>信貸</td>
+                  <td>視專案而定</td>
+                  <td>依線上申辦平台發展</td>
+                </tr>
+                <tr>
+                  <td>虛擬資產</td>
+                  <td>視專案而定</td>
+                  <td>依線上申辦平台發展</td>
+                </tr>
+                <tr>
+                  <td class="platform-cell">ROBO 平台</td>
+                  <td>ROBO</td>
+                  <td>Agile／2 週</td>
+                  <td>有自己的 Library</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">備註：非平台型任務包含 UX Lab、卡經 EDM。</p>
         </div>
       </div>
       <footer class="footer">
@@ -732,22 +787,22 @@
         <div class="slide-number">2/7</div>
       </header>
       <div class="content visual-content">
-        <p class="lead">以「主責任」重新定義協作：廠商設計師主責承接功能專案，正職設計師主責產品/平台設計方向、跨團隊協調與設計決策。</p>
+        <p class="lead">以「主責任」重新定義協作：行內設計師主責平台設計體驗、與開發團隊溝通，廠商設計師主責承接功能專案。</p>
         <div class="grid">
+          <article class="panel">
+            <h3>行內設計師｜平台 Owner</h3>
+            <ul>
+              <li>掌握平台整體設計方向</li>
+              <li>負責重要設計議題與跨團隊協調</li>
+              <li>管理 Design Library 與設計一致性</li>
+            </ul>
+          </article>
           <article class="panel">
             <h3>廠商設計師｜專案 Owner</h3>
             <ul>
               <li>獨立負責完整專案與 UX / UI 設計</li>
               <li>參與需求分析、設計交付與 Design QA</li>
               <li>與 PM、PO、RD 協作並對成果負責</li>
-            </ul>
-          </article>
-          <article class="panel">
-            <h3>正職設計師｜產品／平台 Owner</h3>
-            <ul>
-              <li>掌握產品／平台整體設計方向</li>
-              <li>負責重要設計議題與跨團隊協調</li>
-              <li>管理 Design Library 與設計一致性</li>
             </ul>
           </article>
         </div>
@@ -771,65 +826,75 @@
       </header>
       <div class="content visual-content">
         <p class="lead">每個產品都有明確 Designer Owner，讓角色責任清楚、專案經驗完整，並避免能力集中與工作負荷失衡。</p>
-        <div class="table-wrap responsibility-matrix">
-          <table>
-            <colgroup>
-              <col style="width: 34%">
-              <col style="width: 40%">
-              <col style="width: 26%">
-            </colgroup>
-            <thead>
-              <tr>
-                <th>角色定位</th>
-                <th>主要職責</th>
-                <th>長期方向</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="matrix-owner"><span class="owner-pill">正職｜產品／平台設計 Owner</span></td>
-                <td>
-                  <div class="matrix-lines">
-                    <span>掌握產品／平台整體設計方向</span>
-                    <span>決策重要設計議題</span>
-                    <span>跨團隊、跨產品協調</span>
-                  </div>
-                </td>
-                <td class="matrix-goal">承擔更高層級的設計決策與組織責任</td>
-              </tr>
-              <tr>
-                <td class="matrix-owner"><span class="owner-pill vendor">廠商｜專案設計 Owner</span></td>
-                <td>
-                  <div class="matrix-lines">
-                    <span>需求分析與問題釐清</span>
-                    <span>UX / UI 設計與交付</span>
-                    <span>Design QA 並對成果負責</span>
-                  </div>
-                </td>
-                <td class="matrix-goal">獨立承擔完整專案</td>
-              </tr>
-              <tr>
-                <td class="matrix-owner"><span class="owner-pill shared">所有 Designer｜共同成長</span></td>
-                <td>
-                  <div class="matrix-lines">
-                    <span>累積完整專案經驗</span>
-                    <span>共同貢獻 Design Library 與方法</span>
-                  </div>
-                </td>
-                <td class="matrix-goal">持續成長，維持相近的設計能力與工作負荷</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3">
-                  <div class="matrix-outcome">
-                    <strong>最終目標</strong>
-                    <span>避免廠商長期只接零碎需求造成能力斷層與工作負荷失衡；正職承擔設計決策與組織責任，廠商獨立承擔完整專案，讓所有 Designer 持續成長並維持相近的設計能力與工作負荷。</span>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+        <div class="table-stack matrix-stack">
+          <div class="table-wrap responsibility-matrix">
+            <table>
+              <colgroup>
+                <col style="width: 34%">
+                <col style="width: 40%">
+                <col style="width: 26%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>角色定位</th>
+                  <th>主要職責</th>
+                  <th>長期方向</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="matrix-owner"><span class="owner-pill">行內｜平台設計 Owner</span></td>
+                  <td>
+                    <div class="matrix-lines">
+                      <span>掌握平台整體設計方向</span>
+                      <span>決策重要設計議題</span>
+                      <span>跨團隊、跨產品協調</span>
+                    </div>
+                  </td>
+                  <td class="matrix-goal">承擔更高層級的設計決策與組織責任</td>
+                </tr>
+                <tr>
+                  <td class="matrix-owner"><span class="owner-pill vendor">廠商｜專案設計 Owner</span></td>
+                  <td>
+                    <div class="matrix-lines">
+                      <span>需求分析與問題釐清</span>
+                      <span>UX / UI 設計與交付</span>
+                      <span>Design QA 並對成果負責</span>
+                    </div>
+                  </td>
+                  <td class="matrix-goal">獨立承擔完整專案</td>
+                </tr>
+                <tr>
+                  <td class="matrix-owner"><span class="owner-pill shared">所有 Designer｜共同成長</span></td>
+                  <td>
+                    <div class="matrix-lines">
+                      <span>累積完整專案經驗</span>
+                      <span>共同貢獻 Design Library 與方法</span>
+                    </div>
+                  </td>
+                  <td class="matrix-goal">持續成長，維持相近的設計能力與工作負荷</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-wrap responsibility-matrix matrix-summary">
+            <table>
+              <colgroup>
+                <col style="width: 22%">
+                <col style="width: 78%">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="matrix-owner"><span class="owner-pill shared">最終目標</span></td>
+                  <td>
+                    <div class="matrix-outcome">
+                      <span>行內承擔設計決策與組織責任，廠商獨立承擔完整專案，讓所有 Designer 持續維持相近的設計能力與工作負荷力，避免廠商長期只接零碎需求，造成能力斷層，反使行內設計師工作負荷失衡。</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <footer class="footer">
@@ -851,23 +916,43 @@
       </header>
       <div class="content visual-content">
         <p class="lead">網銀 Library 是核心元件；線上申辦 Library 與網銀 Library 相當接近，僅尺寸、間距、色票、icon 有些微差異。網銀 Library 加上 AI Code Connect 後，即為網銀 AI Library，也就是私銀 AI Library。</p>
-        <div class="relation-diagram" aria-label="網銀、私銀與線上申辦 Library 關係圖">
-          <div class="relation-node">
-            <strong>申辦 Lib</strong>
-            <span>與網銀 Lib 相當接近</span>
-            <span>僅元件尺寸、間距、色票、icon 有些微差異</span>
+        <div class="relation-stack">
+          <div class="relation-diagram" aria-label="網銀、私銀與線上申辦 Library 關係圖">
+            <div class="relation-node">
+              <strong>申辦 Lib</strong>
+              <span>與網銀 Lib 相當接近</span>
+              <span>僅元件尺寸、間距、色票、icon 有些微差異</span>
+            </div>
+            <div class="relation-connector">相當接近</div>
+            <div class="relation-node core">
+              <strong>網銀 Lib</strong>
+              <span>核心元件</span>
+              <span>作為跨產品共用元件基礎</span>
+            </div>
+            <div class="relation-connector equal">= <span>外觀樣式相同<br>加上 AI Code Connect</span></div>
+            <div class="relation-node">
+              <strong>網銀 AI Lib = 私銀 AI Lib</strong>
+              <span>網銀 Lib + AI Code Connect</span>
+              <span>與網銀 Lib 長相一致</span>
+            </div>
           </div>
-          <div class="relation-connector">相當接近</div>
-          <div class="relation-node core">
-            <strong>網銀 Lib</strong>
-            <span>核心元件</span>
-            <span>作為跨產品共用元件基礎</span>
-          </div>
-          <div class="relation-connector equal">= <span>外觀樣式相同<br>加上 AI Code Connect</span></div>
-          <div class="relation-node">
-            <strong>網銀 AI Lib = 私銀 AI Lib</strong>
-            <span>網銀 Lib + AI Code Connect</span>
-            <span>與網銀 Lib 長相一致</span>
+          <div class="table-wrap responsibility-matrix matrix-summary">
+            <table>
+              <colgroup>
+                <col style="width: 22%">
+                <col style="width: 78%">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="matrix-owner"><span class="owner-pill shared">拉齊優點</span></td>
+                  <td>
+                    <div class="matrix-outcome">
+                      <span>Library 彼此差異不大，若能拉齊，Web Team 只需共同維護一套設計元件庫，未來設計師調度支援也更加順暢。</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -963,7 +1048,7 @@
       </footer>
     </section>
 
-    <section class="slide" data-title="團隊角色定位">
+    <section class="slide scrollable" data-title="團隊角色定位">
       <header class="slide-header">
         <div>
           <p class="kicker">UED Web Team｜07</p>
@@ -972,11 +1057,15 @@
         <div class="slide-number">7/7</div>
       </header>
       <div class="content visual-content">
-        <p class="lead">正職設計師皆為平台設計 Owner；廠商設計師皆為專案設計 Owner。兩個角色皆有設計執行的任務，但角色差異在於組織責任、決策權與協調範圍，而不是設計能力或工作量高低。</p>
+        <p class="lead">行內設計師皆為平台設計 Owner；廠商設計師皆為專案設計 Owner。兩個角色皆有設計執行的任務，但角色差異在於組織責任、決策權與協調範圍，而不是設計能力或工作量高低。</p>
         <div class="role-tables">
           <div class="table-wrap">
-            <h3 class="table-title">正職｜平台設計 Owner</h3>
-            <table>
+            <h3 class="table-title">行內｜平台設計 Owner</h3>
+            <table class="role-table">
+              <colgroup>
+                <col style="width: 22%">
+                <col style="width: 78%">
+              </colgroup>
               <thead>
                 <tr>
                   <th>設計師</th>
@@ -998,14 +1087,18 @@
                 </tr>
                 <tr>
                   <td>王仕和</td>
-                  <td>線上申辦專案與元件整合 → 線上申辦平台設計 Owner ＋ 網銀專案 → Web 跨產品能力（網銀平台設計 Owner？）</td>
+                  <td>線上申辦平台設計 Owner ＋ 網銀專案 → Web 跨產品能力（網銀平台設計 Owner？）</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="table-wrap">
             <h3 class="table-title">廠商｜專案設計 Owner</h3>
-            <table>
+            <table class="role-table">
+              <colgroup>
+                <col style="width: 22%">
+                <col style="width: 78%">
+              </colgroup>
               <thead>
                 <tr>
                   <th>設計師</th>
