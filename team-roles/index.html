@@ -33,6 +33,19 @@
       box-sizing: border-box;
     }
 
+    h1,
+    h2,
+    h3,
+    p,
+    li,
+    td,
+    th,
+    span,
+    strong {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -152,6 +165,14 @@
       font-size: var(--type-body);
       line-height: var(--leading-body);
       font-weight: var(--weight-body);
+    }
+
+    .lead-list {
+      padding-left: 1.5em;
+    }
+
+    .lead-list li + li {
+      margin-top: 6px;
     }
 
     .grid {
@@ -605,29 +626,68 @@
       outline-offset: 2px;
     }
 
-    @media (max-width: 880px) {
+    @media (max-width: 1024px) {
+      :root {
+        --type-hero: 28px;
+        --type-title: 17px;
+        --type-body: 15px;
+        --type-small: 13px;
+      }
+
       body {
         overflow: auto;
+        overflow-x: hidden;
       }
 
       .deck {
+        width: 100%;
+        max-width: 100%;
         min-height: 100vh;
         height: auto;
+        overflow-x: hidden;
       }
 
       .slide {
+        position: relative;
+        inset: auto;
         min-height: 100vh;
-        padding: 26px 18px;
-        gap: 22px;
+        min-height: 100dvh;
+        padding: 28px clamp(20px, 5vw, 44px);
+        overflow-x: hidden;
+      }
+
+      .slide.active {
+        display: block;
       }
 
       .slide-header {
         align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+      }
+
+      .slide-header > *,
+      .content > *,
+      .footer > * {
+        min-width: 0;
       }
 
       .slide-number {
         width: 48px;
         height: 48px;
+      }
+
+      .content,
+      .content.visual-content {
+        display: block;
+        min-width: 0;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .content > * + * {
+        margin-top: 20px;
       }
 
       .grid,
@@ -637,7 +697,7 @@
       }
 
       .responsibility-matrix table {
-        min-width: 820px;
+        min-width: 0;
       }
 
       .panel {
@@ -678,6 +738,191 @@
       }
     }
 
+    @media (max-width: 720px) {
+      :root {
+        --type-hero: 24px;
+        --type-title: 16px;
+        --type-body: 15px;
+        --type-small: 13px;
+      }
+
+      body,
+      .deck,
+      .slide,
+      .content,
+      .slide * {
+        min-width: 0;
+      }
+
+      .slide {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        padding: 22px 16px;
+        gap: 18px;
+      }
+
+      .slide-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .kicker {
+        margin-bottom: 8px;
+      }
+
+      .slide-number {
+        width: 44px;
+        height: 44px;
+      }
+
+      .lead {
+        line-height: 1.58;
+      }
+
+      .panel,
+      .library-node,
+      .library-decision,
+      .relation-node {
+        padding: 16px;
+      }
+
+      .table-stack,
+      .role-tables,
+      .relation-stack {
+        gap: 12px;
+      }
+
+      .table-wrap {
+        display: grid;
+        width: 100%;
+        gap: 10px;
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .table-title {
+        padding: 0;
+        font-size: var(--type-title);
+      }
+
+      colgroup,
+      thead {
+        display: none;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      tbody {
+        display: grid;
+        gap: 10px;
+      }
+
+      tr {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 28px rgba(16, 32, 51, 0.1);
+        padding: 12px 14px;
+      }
+
+      th,
+      td,
+      .responsibility-matrix th,
+      .responsibility-matrix td {
+        padding: 0;
+        border-bottom: 0;
+      }
+
+      td {
+        display: block;
+        padding: 8px 0;
+      }
+
+      td + td {
+        border-top: 1px solid rgba(200, 214, 232, 0.7);
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 5px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: var(--leading-tight);
+        font-weight: var(--weight-label);
+      }
+
+      td[data-label=""] {
+        display: block;
+      }
+
+      td[data-label=""]::before {
+        content: none;
+      }
+
+      .platform-cell,
+      .responsibility-matrix tbody tr:nth-child(even) td:not(.matrix-owner),
+      .matrix-summary td {
+        background: transparent;
+      }
+
+      .matrix-owner {
+        text-align: left;
+      }
+
+      .owner-pill {
+        width: fit-content;
+        max-width: 100%;
+        min-height: 0;
+        border-radius: var(--radius);
+        padding: 8px 12px;
+      }
+
+      .matrix-lines {
+        gap: 7px;
+      }
+
+      .relation-node span {
+        font-size: var(--type-small);
+      }
+
+      .relation-connector {
+        gap: 6px;
+      }
+
+      .library-arrow {
+        min-height: 18px;
+      }
+
+      .footer {
+        gap: 12px;
+        padding-top: 10px;
+      }
+
+      .footer span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      button {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
     @media print {
       body {
         overflow: visible;
@@ -707,12 +952,12 @@
       <header class="slide-header">
         <div>
           <p class="kicker">UED Web Team｜01</p>
-          <h1>目前產品與開發模式</h1>
+          <h1>目前各平台運作模式</h1>
         </div>
         <div class="slide-number">1/7</div>
       </header>
       <div class="content visual-content">
-        <p class="lead">Web Team 橫跨網銀、私人銀行、線上申辦、ROBO 與非平台任務；不同產品同時存在，By 專案、Agile、AI Scrum 的運作節奏。</p>
+        <p class="lead">Web Team 包含網銀、私人銀行、線上申辦、ROBO 與非平台任務。不同平台的運作如下。</p>
         <div class="table-stack">
           <div class="table-wrap">
             <table>
@@ -825,7 +1070,7 @@
         <div class="slide-number">3/7</div>
       </header>
       <div class="content visual-content">
-        <p class="lead">每個產品都有明確 Designer Owner，讓角色責任清楚、專案經驗完整，並避免能力集中與工作負荷失衡。</p>
+        <p class="lead">每個平台都有明確 Design Owner 讓平台 KnowHow 可延續。</p>
         <div class="table-stack matrix-stack">
           <div class="table-wrap responsibility-matrix">
             <table>
@@ -851,7 +1096,7 @@
                       <span>跨團隊、跨產品協調</span>
                     </div>
                   </td>
-                  <td class="matrix-goal">承擔更高層級的設計決策與組織責任</td>
+                  <td class="matrix-goal">承擔平台的設計體驗與決策</td>
                 </tr>
                 <tr>
                   <td class="matrix-owner"><span class="owner-pill vendor">廠商｜專案設計 Owner</span></td>
@@ -888,7 +1133,7 @@
                   <td class="matrix-owner"><span class="owner-pill shared">最終目標</span></td>
                   <td>
                     <div class="matrix-outcome">
-                      <span>行內承擔設計決策與組織責任，廠商獨立承擔完整專案，讓所有 Designer 持續維持相近的設計能力與工作負荷力，避免廠商長期只接零碎需求，造成能力斷層，反使行內設計師工作負荷失衡。</span>
+                      <span>行內設計師要更熟悉主責的平台，廠商設計師可更彈性調度。所有 Designer 可維持設計能力與工作負荷力，避免廠商長期只接零碎需求，造成能力斷層浪費人力資源，反使行內設計師工作負荷失衡。</span>
                     </div>
                   </td>
                 </tr>
@@ -915,23 +1160,26 @@
         <div class="slide-number">4/7</div>
       </header>
       <div class="content visual-content">
-        <p class="lead">網銀 Library 是核心元件；線上申辦 Library 與網銀 Library 相當接近，僅尺寸、間距、色票、icon 有些微差異。網銀 Library 加上 AI Code Connect 後，即為網銀 AI Library，也就是私銀 AI Library。</p>
+        <ol class="lead lead-list">
+          <li>網銀 Library 是核心元件。線上申辦 Library 與網銀 Library 相當接近，僅尺寸、間距、色票、icon 有些微差異。</li>
+          <li>網銀 Library 加上 AI Code Connect 後，為私銀 AI Library。</li>
+        </ol>
         <div class="relation-stack">
           <div class="relation-diagram" aria-label="網銀、私銀與線上申辦 Library 關係圖">
             <div class="relation-node">
-              <strong>申辦 Lib</strong>
+              <strong>線上申辦</strong>
               <span>與網銀 Lib 相當接近</span>
               <span>僅元件尺寸、間距、色票、icon 有些微差異</span>
             </div>
             <div class="relation-connector">相當接近</div>
             <div class="relation-node core">
-              <strong>網銀 Lib</strong>
+              <strong>網銀</strong>
               <span>核心元件</span>
               <span>作為跨產品共用元件基礎</span>
             </div>
             <div class="relation-connector equal">= <span>外觀樣式相同<br>加上 AI Code Connect</span></div>
             <div class="relation-node">
-              <strong>網銀 AI Lib = 私銀 AI Lib</strong>
+              <strong>網銀 AI = 私銀 AI</strong>
               <span>網銀 Lib + AI Code Connect</span>
               <span>與網銀 Lib 長相一致</span>
             </div>
@@ -947,7 +1195,7 @@
                   <td class="matrix-owner"><span class="owner-pill shared">拉齊優點</span></td>
                   <td>
                     <div class="matrix-outcome">
-                      <span>Library 彼此差異不大，若能拉齊，Web Team 只需共同維護一套設計元件庫，未來設計師調度支援也更加順暢。</span>
+                      <span>Library 彼此差異不大，若能拉齊讓 網銀、私銀、線上申辦只需共同維護一套設計元件庫，未來設計師調度支援也會更加順暢。</span>
                     </div>
                   </td>
                 </tr>
@@ -1141,13 +1389,50 @@
     const slides = Array.from(document.querySelectorAll(".slide"));
     let current = 0;
 
+    function labelTableCells() {
+      document.querySelectorAll("table").forEach((table) => {
+        const headers = Array.from(table.tHead?.rows[0]?.cells ?? []).map((cell) => cell.textContent.trim());
+
+        if (headers.length === 0) {
+          table.querySelectorAll("td").forEach((cell) => {
+            cell.dataset.label = "";
+          });
+          return;
+        }
+
+        const rowSpans = [];
+        Array.from(table.tBodies).forEach((tbody) => {
+          Array.from(tbody.rows).forEach((row) => {
+            let columnIndex = 0;
+            Array.from(row.cells).forEach((cell) => {
+              while (rowSpans[columnIndex] > 0) {
+                rowSpans[columnIndex] -= 1;
+                columnIndex += 1;
+              }
+
+              cell.dataset.label = headers[columnIndex] ?? "";
+
+              if (cell.rowSpan > 1) {
+                rowSpans[columnIndex] = cell.rowSpan - 1;
+              }
+
+              columnIndex += cell.colSpan || 1;
+            });
+          });
+        });
+      });
+    }
+
     function showSlide(index) {
       current = (index + slides.length) % slides.length;
       slides.forEach((slide, slideIndex) => {
         slide.classList.toggle("active", slideIndex === current);
       });
       document.title = `${slides[current].dataset.title}｜UED Web Team`;
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
+
+    labelTableCells();
 
     document.querySelectorAll("[data-prev]").forEach((button) => {
       button.addEventListener("click", () => showSlide(current - 1));
